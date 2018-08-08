@@ -24,3 +24,15 @@ func TestCanLoadPercentileTable(t *testing.T) {
         t.Error("percentile table not loaded correctly")
     }
 }
+
+func TestCanLoadPercentileScoresByAge(t *testing.T) {
+    _, oops := GetPercentileScoreByAge(13)
+    if oops == nil {
+        t.Error("Loaded invalid percentile scores by age")
+    }
+
+    scores, oops := GetPercentileScoreByAge(11)
+    if (scores[0] != 35) || (scores[len(scores)-1] != 17) {
+        t.Error("Loaded wrong score list for that age")
+    }
+}

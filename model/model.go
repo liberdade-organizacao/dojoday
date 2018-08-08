@@ -5,7 +5,7 @@ import (
     "io/ioutil"
     "strings"
     "strconv"
-    "fmt"
+    "errors"
 )
 
 // Just a function to kickstart stuff
@@ -36,7 +36,6 @@ func getValidityFilePath() string {
 func GetPercentile() []int {
     outlet := make([]int, 0)
     filepath := getPercentileFilePath()
-    fmt.Println(filepath)
     rawContent, oops := ioutil.ReadFile(filepath)
     if oops != nil {
         return outlet
@@ -59,7 +58,41 @@ func GetPercentile() []int {
 }
 
 // TODO Get minimum score for a percentile based on the age
-func GetPercentileScoreByAge(age int) []int {
+func GetPercentileScoreByAge(age int) ([]int, error) {
     outlet := make([]int, 0)
-    return outlet
+    filepath := getPercentileFilePath()
+    rawContent, oops := ioutil.ReadFile(filepath)
+    if oops != nil {
+        return outlet, oops
+    }
+    content := string(rawContent)
+    lines := strings.Split(content, "\n")
+    targetColumn := -1
+    firstLine := true
+    for _, rawLine := range lines {
+        line := strings.Trim(rawLine, "\r")
+        fields := strings.Split(line, "\t")
+        if firstLine {
+            for i, field := range fields {
+                maybeAge, oops := strconv.Atoi(field)
+                if oops == nil {
+                    if maybeAge == age {
+                        targetColumn = i
+                    }
+                }
+            }
+            if targetColumn <= 0 {
+                return outlet, errors.New("Invalid age")
+            }
+            firstLine = false
+        } else {
+            if len(fields) > targetColumn {
+                score, oops := strconv.Atoi(fields[targetColumn])
+                if oops == nil {
+                    outlet = append(outlet, score)
+                }
+            }
+        }
+    }
+    return outlet, nil
 }
