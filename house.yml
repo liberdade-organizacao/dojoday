@@ -1,0 +1,5 @@
+---
+build:
+    local: false
+    commands:
+    - go test github.com/liberdade-organizacao/dojoday/model
