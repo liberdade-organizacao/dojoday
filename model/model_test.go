@@ -17,3 +17,10 @@ func TestContainRequiredEnvironmentVariable(t *testing.T) {
         t.Error("DOJODAY_FILES environment variable not set")
     }
 }
+
+func TestCanLoadPercentileTable(t *testing.T) {
+    percentile := GetPercentile()
+    if (percentile[0] != 99) || (percentile[len(percentile)-1] != 1) {
+        t.Error("percentile table not loaded correctly")
+    }
+}
