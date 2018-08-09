@@ -113,14 +113,48 @@ func GetTestItems() []string {
 
 // Gets how many options there are for each item
 func GetHowManyOptionsForItem() []int {
-    // TODO Implement me!
-    return []int { 6, 6, 6 }
+    outlet := make([]int, 0)
+    lines, oops := LoadLines(getAnswerFilePath())
+    if oops != nil {
+        return outlet
+    }
+    firstLine := true
+    for _, line := range lines {
+        if !firstLine {
+            fields := strings.Split(line, "\t")
+            if len(fields) > 1 {
+                maybe, oops := strconv.Atoi(fields[1])
+                if oops == nil {
+                    outlet = append(outlet, maybe)
+                }
+            }
+        }
+        firstLine = false
+    }
+    return outlet
 }
 
 // Gets the correct answer for each item
 func GetCorrectAnswers() []int {
-    // TODO Implement me!
-    return []int { 4, 2, 5 }
+    outlet := make([]int, 0)
+    lines, oops := LoadLines(getAnswerFilePath())
+    if oops != nil {
+        return outlet
+    }
+    firstLine := true
+    for _, line := range lines {
+        if !firstLine {
+            fields := strings.Split(line, "\t")
+            if len(fields) > 1 {
+                maybe, oops := strconv.Atoi(fields[2])
+                if oops == nil {
+                    outlet = append(outlet, maybe)
+                }
+            }
+        }
+        firstLine = false
+    }
+    return outlet
 }
 
 // Gets which series the current item is in
