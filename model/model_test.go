@@ -52,12 +52,20 @@ func TestCanLoadOptionQuantityForEachItem(t *testing.T) {
             return
         }
     }
+
+    if len(optionQty) != 36 {
+        t.Error("Couldn't load all items")
+    }
 }
 
 func TestCanLoadCorrectAnswers(t *testing.T) {
     correctAnswers := GetCorrectAnswers()
     if (correctAnswers[0] != 4) || (correctAnswers[len(correctAnswers)-1] != 5) {
         t.Error("Wrong loading of correct answers")
+    }
+
+    if len(correctAnswers) != 36 {
+        t.Error("Couldn't load all items")
     }
 }
 
