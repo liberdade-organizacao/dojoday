@@ -125,8 +125,23 @@ func GetCorrectAnswers() []int {
 
 // Gets which series the current item is in
 func GetItemSeries() []string {
-    // TODO Implement me!
-    return []string { "a", "ab", "b" }
+    outlet := make([]string, 0)
+    lines, oops := LoadLines(getAnswerFilePath())
+    if oops != nil {
+        return outlet
+    }
+    firstLine := true
+    for _, rawLine := range lines {
+        line := strings.Trim(rawLine, "\r")
+        if !firstLine {
+            fields := strings.Split(line, "\t")
+            if len(fields) > 1 {
+                outlet = append(outlet, fields[3])
+            }
+        }
+        firstLine = false
+    }
+    return outlet
 }
 
 // Loads the a file into an array of strings, one for each line
