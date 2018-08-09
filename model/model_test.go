@@ -78,3 +78,24 @@ func TestCanLoadItemSeries(t *testing.T) {
         }
     }
 }
+
+func TestCanLoadValidities(t *testing.T) {
+    validities := GetValiditiesForSeries("a")
+    if _, ok := validities[5]; ok == true {
+        t.Error("Loaded validities from invalid score")
+    }
+    if baseScore := validities[10]; baseScore != 5 {
+        t.Error("Couldn't load first validity score for A the series")
+    }
+    if baseScore := validities[35]; baseScore != 12 {
+        t.Error("Couldn't load last validity score for A series")
+    }
+
+    validities = GetValiditiesForSeries("b")
+    if baseScore := validities[10]; baseScore != 2 {
+        t.Error("Couldn't load first validity score for B the series")
+    }
+    if baseScore := validities[35]; baseScore != 11 {
+        t.Error("Couldn't load last validity score for B series")
+    }
+}

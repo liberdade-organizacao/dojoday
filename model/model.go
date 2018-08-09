@@ -189,3 +189,38 @@ func LoadLines(filepath string) ([]string, error) {
     outlet = strings.Split(content, "\n")
     return outlet, nil
 }
+
+// Relates the total score to the required partial score for each series
+func GetValiditiesForSeries(series string) map[int]int {
+    outlet := make(map[int]int)
+    lines, oops := LoadLines(getValidityFilePath())
+    if oops != nil {
+        return outlet
+    }
+    targetColumn := -1
+    firstLine := true
+    for _, rawLine := range lines {
+        line := strings.Trim(rawLine, "\r")
+        fields := strings.Split(line, "\t")
+        if firstLine {
+            for i, field := range fields {
+                if field == series {
+                    targetColumn = i
+                }
+            }
+            if targetColumn <= 0 {
+                return outlet
+            }
+            firstLine = false
+        } else {
+            if len(fields) > targetColumn {
+                totalScore, oops1 := strconv.Atoi(fields[0])
+                partialScore, oops2 := strconv.Atoi(fields[targetColumn])
+                if (oops1 == nil) && (oops2 == nil) {
+                    outlet[totalScore] = partialScore
+                }
+            }
+        }
+    }
+    return outlet
+}
