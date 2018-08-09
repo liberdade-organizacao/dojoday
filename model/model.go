@@ -35,13 +35,10 @@ func getValidityFilePath() string {
 // Gets the percentile list
 func GetPercentile() []int {
     outlet := make([]int, 0)
-    filepath := getPercentileFilePath()
-    rawContent, oops := ioutil.ReadFile(filepath)
+    lines, oops := LoadLines(getPercentileFilePath())
     if oops != nil {
         return outlet
     }
-    content := string(rawContent)
-    lines := strings.Split(content, "\n")
     firstLine := true
     for _, line := range lines {
         if firstLine {
@@ -60,13 +57,10 @@ func GetPercentile() []int {
 // Gets minimum score for a percentile based on the age
 func GetPercentileScoreByAge(age int) ([]int, error) {
     outlet := make([]int, 0)
-    filepath := getPercentileFilePath()
-    rawContent, oops := ioutil.ReadFile(filepath)
+    lines, oops := LoadLines(getPercentileFilePath())
     if oops != nil {
         return outlet, oops
     }
-    content := string(rawContent)
-    lines := strings.Split(content, "\n")
     targetColumn := -1
     firstLine := true
     for _, rawLine := range lines {
@@ -100,13 +94,10 @@ func GetPercentileScoreByAge(age int) ([]int, error) {
 // This function get the each test item's id.
 func GetTestItems() []string {
     outlet := make([]string, 0)
-    filepath := getAnswerFilePath()
-    rawContent, oops := ioutil.ReadFile(filepath)
+    lines, oops := LoadLines(getAnswerFilePath())
     if oops != nil {
         return outlet
     }
-    content := string(rawContent)
-    lines := strings.Split(content, "\n")
     firstLine := true
     for _, line := range lines {
         if !firstLine {
@@ -120,4 +111,14 @@ func GetTestItems() []string {
     return outlet
 }
 
-// TODO Implement function to load files into []string
+// Loads the a file into an array of strings, one for each line
+func LoadLines(filepath string) ([]string, error) {
+    outlet := make([]string, 0)
+    rawContent, oops := ioutil.ReadFile(filepath)
+    if oops != nil {
+        return outlet, oops
+    }
+    content := string(rawContent)
+    outlet = strings.Split(content, "\n")
+    return outlet, nil
+}
