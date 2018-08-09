@@ -36,3 +36,10 @@ func TestCanLoadPercentileScoresByAge(t *testing.T) {
         t.Error("Loaded wrong score list for that age")
     }
 }
+
+func TestCanLoadTestItems(t *testing.T) {
+    items := GetTestItems()
+    if (items[0] != "A1") || (items[len(items)-1] != "B12") {
+        t.Error("Couldn't load test items")
+    }
+}

@@ -57,7 +57,7 @@ func GetPercentile() []int {
     return outlet
 }
 
-// TODO Get minimum score for a percentile based on the age
+// Gets minimum score for a percentile based on the age
 func GetPercentileScoreByAge(age int) ([]int, error) {
     outlet := make([]int, 0)
     filepath := getPercentileFilePath()
@@ -96,3 +96,28 @@ func GetPercentileScoreByAge(age int) ([]int, error) {
     }
     return outlet, nil
 }
+
+// This function get the each test item's id.
+func GetTestItems() []string {
+    outlet := make([]string, 0)
+    filepath := getAnswerFilePath()
+    rawContent, oops := ioutil.ReadFile(filepath)
+    if oops != nil {
+        return outlet
+    }
+    content := string(rawContent)
+    lines := strings.Split(content, "\n")
+    firstLine := true
+    for _, line := range lines {
+        if !firstLine {
+            fields := strings.Split(line, "\t")
+            if len(fields) > 1 {
+                outlet = append(outlet, fields[0])
+            }
+        }
+        firstLine = false
+    }
+    return outlet
+}
+
+// TODO Implement function to load files into []string
