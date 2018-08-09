@@ -43,3 +43,30 @@ func TestCanLoadTestItems(t *testing.T) {
         t.Error("Couldn't load test items")
     }
 }
+
+func TestCanLoadOptionQuantityForEachItem(t *testing.T) {
+    optionQty := GetHowManyOptionsForItem()
+    for _, option := range optionQty {
+        if option != 6 {
+            t.Error("Wrong loading of option quantity")
+            return
+        }
+    }
+}
+
+func TestCanLoadCorrectAnswers(t *testing.T) {
+    correctAnswers := GetCorrectAnswers()
+    if (correctAnswers[0] != 4) || (correctAnswers[len(correctAnswers)-1] != 5) {
+        t.Error("Wrong loading of correct answers")
+    }
+}
+
+func TestCanLoadItemSeries(t *testing.T) {
+    series := GetItemSeries()
+    correctSeries := []string { "a", "ab", "b" }
+    for i := 0; i < 36; i++ {
+        if series[i] != correctSeries[i/12] {
+            t.Error("Couldn't load item series")
+        }
+    }
+}

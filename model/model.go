@@ -111,6 +111,24 @@ func GetTestItems() []string {
     return outlet
 }
 
+// Gets how many options there are for each item
+func GetHowManyOptionsForItem() []int {
+    // TODO Implement me!
+    return []int { 6, 6, 6 }
+}
+
+// Gets the correct answer for each item
+func GetCorrectAnswers() []int {
+    // TODO Implement me!
+    return []int { 4, 2, 5 }
+}
+
+// Gets which series the current item is in
+func GetItemSeries() []string {
+    // TODO Implement me!
+    return []string { "a", "ab", "b" }
+}
+
 // Loads the a file into an array of strings, one for each line
 func LoadLines(filepath string) ([]string, error) {
     outlet := make([]string, 0)
