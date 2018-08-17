@@ -11,5 +11,16 @@ func ValidateAnswer(item, answer int) bool {
 }
 
 func GetNumberOfItems() int {
+    // TODO Implement me!
     return 3
+}
+
+func ValidateApplication(age int, answers []int) int {
+    // TODO Implement me!
+    return 1
+}
+
+func GetNthItem(n int) string {
+    // TODO Implement me!
+    return "X"
 }

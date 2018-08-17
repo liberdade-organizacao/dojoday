@@ -1,6 +1,7 @@
 package view
 
 import (
+    "fmt"
     "strconv"
     "strings"
     "github.com/liberdade-organizacao/dojoday/controller"
@@ -19,6 +20,7 @@ type View struct {
     Age int
     State StateEnum
     Output []string
+    Answers []int
 }
 
 func NewView() View {
@@ -30,6 +32,7 @@ func NewView() View {
         Output: []string {
             "Digite a sua idade:",
         },
+        Answers: make([]int, 0),
     }
 }
 
@@ -53,6 +56,7 @@ func (view *View) Read(line string) {
             view.Age = age
             view.State = TestState
             view.CurrentItem = 0
+            view.Answers = make([]int, 0)
             view.Output = append(view.Output, "Item A1:")
         } else {
             view.Output = append(view.Output, "Digite uma idade válida")
@@ -63,15 +67,19 @@ func (view *View) Read(line string) {
         if oops != nil {
             view.Output = append(view.Output, "Digite um valor válido!")
         } else if controller.ValidateAnswer(view.CurrentItem, answer) {
-            // TODO Store answers
+            view.Answers = append(view.Answers, answer)
             view.CurrentItem += 1
             if view.CurrentItem >= controller.GetNumberOfItems() {
                 view.State = EndingState
-                // TODO Display end result
+                feedback := "Seu resultado é inconclusivo"
+                if percentile := controller.ValidateApplication(view.Age, view.Answers); percentile >= 0 {
+                     feedback = fmt.Sprintf("Você está entre os %d%% mais inteligentes da população com %d anos", 100-percentile, view.Age)
+                }
+                view.Output = append(view.Output, feedback)
                 view.Output = append(view.Output, "Deseja tentar novamente? [s/N]")
             } else {
-                // TODO Load new items
-                view.Output = append(view.Output, "Mais uma questão...")
+                item := fmt.Sprintf("Item %s", controller.GetNthItem(view.CurrentItem))
+                view.Output = append(view.Output, item)
             }
         } else {
             view.Output = append(view.Output, "Digite uma idade válida")
@@ -81,9 +89,8 @@ func (view *View) Read(line string) {
         endMe := true
         if len(line) > 0 {
             if (line[0] == 's') || (line[0] == 'S') {
-                view.State = TestState
-                view.CurrentItem = 0
-                view.Output = append(view.Output, "Item A1:")
+                view.State = AgeQuestionState
+                view.Output = append(view.Output, "Digite a sua idade:")
                 endMe = false
             }
         }
