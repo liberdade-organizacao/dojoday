@@ -2,5 +2,6 @@
 build:
     local: false
     commands:
+    - go test github.com/liberdade-organizacao/dojoday/docs
     - go test github.com/liberdade-organizacao/dojoday/model
     - go build github.com/liberdade-organizacao/dojoday/main
