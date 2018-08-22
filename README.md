@@ -4,7 +4,9 @@ Dojo Day 2018
 Descrição do problema
 ---------------------
 
-Inspirado em fatos reais.
+```
+Inspirado em fatos reais
+```
 
 Você foi contactado por uma psicóloga para fazer um programa de computador que confere se a execução de um teste de matrizes progressivas de Raven é válida. O sobrinho dela, estudante de engenharia da computação do Colégio para Estudantes Universitários de Brasília, participante do Dojo de TDD de sua universidade, já começou a fazer o serviço, dividindo a aplicação em camadas e fazendo testes unitários, como recomendado no dojo; mas ele não pode continuar porque conseguiu outro emprego. Sua tarefa então é continuar o trabalho dele, fazendo a classe final, que implementa a lógica do sistema, mantendo as boas práticas de engenharia de software que ele começou.
 
@@ -19,18 +21,18 @@ Você deverá implementar as seguintes funções em Go para completar o programa
 
 ``` go
 // Indica se a idade fornecida está de acordo com as restrições do teste
-func ValidateAge(age int) bool
+func ValidateAge(age int) bool { }
 
 // Indica se a resposta dada está de acordo com o item atual
-func ValidateAnswer(item, answer int) bool
+func ValidateAnswer(item, answer int) bool { }
 
 // Devolve o número de itens que o teste contém
-func GetNumberOfItems() int
+func GetNumberOfItems() int { }
 
 // Checa se as respostas dadas para um teste estão de acordo com a idade
 // do sujeito
-func ValidateApplication(age int, answers []int) int
+func ValidateApplication(age int, answers []int) int { }
 
 // Devolve a descrição do n-ésimo item do teste
-func GetNthItem(n int) string
+func GetNthItem(n int) string { }
 ```
